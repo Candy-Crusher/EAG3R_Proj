@@ -75,20 +75,43 @@
 
         <section class="section">
             <div class="teaser-container">
-                <div class="video-compare-container" id="teaser-slider">
-                    <video class="video-after" autoplay loop muted playsinline src="assets/teaser_reconstruction.mp4"></video> 
-                    <div class="video-clipper">
-                        <video class="video-before" autoplay loop muted playsinline src="assets/teaser_input.mp4"></video> 
+                
+                <div class="teaser-grid">
+                    
+                    <div class="video-compare-wrapper">
+                        <h3>Inputs: The Invisible & The Visible</h3>
+                        <div class="video-compare-container">
+                            <img class="video-after" src="assets/teaser_event.png" alt="Event Stream Visualization">
+                            <div class="video-clipper">
+                                <img class="video-before" src="assets/teaser_rgb.png" alt="RGB Input">
+                            </div>
+                            <div class="slider-handle">
+                                <div class="handle-line"></div>
+                                <div class="handle-circle"><i class="fas fa-arrows-alt-h"></i></div>
+                            </div>
+                            <div class="label label-before">RGB Input (Low Light)</div>
+                            <div class="label label-after">Event Stream (High SNR)</div>
+                        </div>
                     </div>
-                    <div class="slider-handle">
-                        <div class="handle-line"></div>
-                        <div class="handle-circle"><i class="fas fa-arrows-alt-h"></i></div>
+
+                    <div class="video-compare-wrapper">
+                        <h3>Results: Failure vs Robustness</h3>
+                        <div class="video-compare-container">
+                            <img class="video-after" src="assets/teaser_eag3r.png" alt="EAG3R Result">
+                            <div class="video-clipper">
+                                <img class="video-before" src="assets/teaser_monst3r.png" alt="MonST3R Baseline">
+                            </div>
+                            <div class="slider-handle">
+                                <div class="handle-line"></div>
+                                <div class="handle-circle"><i class="fas fa-arrows-alt-h"></i></div>
+                            </div>
+                            <div class="label label-before">Baseline (MonST3R)</div>
+                            <div class="label label-after">EAG3R (Ours)</div>
+                        </div>
                     </div>
-                    <div class="label label-before">Input (Low Light)</div>
-                    <div class="label label-after">EAG3R (Ours)</div>
-                </div>
-                <div class="caption-below">
-                    <strong>Seeing in the Dark:</strong> While standard RGB methods fail in extreme low-light dynamic scenes, EAG3R leverages asynchronous event streams to reconstruct dense, temporally consistent 3D geometry.
+                    
+                </div> <div class="caption-below" style="margin-top: 1.5rem;">
+                    <strong>Seeing in the Dark.</strong> Left: Standard RGB cameras are blind in extreme darkness, capturing mostly noise. Event cameras, however, capture distinct motion signals with high SNR. Right: Consequently, RGB-only methods like MonST3R fail completely, while our event-augmented EAG3R successfully reconstructs the geometry.
                 </div>
             </div>
         </section>
@@ -193,15 +216,34 @@
     </div>
 
     <script>
-        const slider = document.getElementById('teaser-slider');
-        const clipper = slider.querySelector('.video-clipper');
-        const handle = slider.querySelector('.slider-handle');
-        function trackLocation(e) {
-            const rect = slider.getBoundingClientRect();
-            const position = ((e.clientX - rect.left) / rect.width) * 100;
-            if (position <= 100 && position >= 0) { clipper.style.width = position + "%"; handle.style.left = position + "%"; }}
-        slider.addEventListener('mousemove', trackLocation);
-        slider.addEventListener('touchmove', (e) => { trackLocation(e.touches[0]); });
+        // Select all slider containers on the page
+        const sliders = document.querySelectorAll('.video-compare-container');
+
+        // Iterate through each slider and initialize its functionality independently
+        sliders.forEach(slider => {
+            const clipper = slider.querySelector('.video-clipper');
+            const handle = slider.querySelector('.slider-handle');
+
+            function trackLocation(e) {
+                const rect = slider.getBoundingClientRect();
+                // Calculate position percentage relative to this specific slider's width
+                let position = ((e.clientX - rect.left) / rect.width) * 100;
+                // Clamp position between 0 and 100
+                position = Math.max(0, Math.min(100, position));
+
+                clipper.style.width = position + "%";
+                handle.style.left = position + "%";
+            }
+
+            // Mouse event
+            slider.addEventListener('mousemove', trackLocation);
+            
+            // Touch event (for mobile)
+            slider.addEventListener('touchmove', (e) => {
+                e.preventDefault(); // Prevent scrolling while dragging slider
+                trackLocation(e.touches[0]);
+            }, { passive: false });
+        });
     </script>
 </body>
 </html>

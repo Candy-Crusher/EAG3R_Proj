@@ -1,3 +1,8 @@
+/* =========================================
+   EAG3R Project Page Stylesheet
+   Based on Nerfies template, adapted for Dark Mode
+   ========================================= */
+
 :root {
     --bg-color: #1a1a1a;
     --card-bg: #242424;
@@ -23,7 +28,9 @@ a:hover { color: var(--signal-green); }
 
 .container { max-width: 960px; margin: 0 auto; padding: 2rem 1rem; }
 
-/* HERO & HEADERS */
+/* =========================================
+   HERO & HEADERS
+   ========================================= */
 .hero-section { text-align: center; padding: 3rem 0; }
 .title { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; background: linear-gradient(120deg, #fff, #ccc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .badge { display: inline-block; background-color: var(--neurips-purple); color: white; padding: 0.25rem 0.8rem; border-radius: 50px; font-weight: bold; font-size: 0.9rem; margin-bottom: 1.5rem; box-shadow: 0 0 15px rgba(120, 67, 230, 0.4); }
@@ -32,7 +39,9 @@ a:hover { color: var(--signal-green); }
 .affiliations { font-size: 0.95rem; color: var(--text-muted); }
 .equal-contribution { font-size: 0.8rem; color: var(--text-muted); font-style: italic; margin-top: 5px; margin-bottom: 2rem; }
 
-/* BUTTONS */
+/* =========================================
+   BUTTONS
+   ========================================= */
 .links { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
 .btn { display: inline-flex; align-items: center; padding: 0.6rem 1.2rem; border-radius: 50px; font-weight: 600; color: white !important; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
 .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
@@ -40,13 +49,17 @@ a:hover { color: var(--signal-green); }
 .btn-dark { background-color: #333; }
 .btn .icon { margin-right: 8px; }
 
-/* SECTIONS & CONTENT */
+/* =========================================
+   SECTIONS & CONTENT BLOCKS
+   ========================================= */
 .section { margin-bottom: 4rem; }
 .section-title { text-align: center; font-size: 2rem; margin-bottom: 1.5rem; border-bottom: 1px solid #333; padding-bottom: 0.5rem; color: var(--text-color); }
 .content-block { background-color: var(--card-bg); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
 .abstract-text { margin-top: 1.5rem; }
 
-/* IMAGES & FIGURES (NEWLY ADDED) */
+/* =========================================
+   IMAGES & FIGURES STYLES
+   ========================================= */
 .content-image {
     display: block;
     margin: 2rem auto 1rem auto;
@@ -55,33 +68,80 @@ a:hover { color: var(--signal-green); }
     border-radius: 8px;
     border: 1px solid #333;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    background-color: #fff; /* White bg for transparent PNGs */
-    padding: 4px;
+    background-color: #fff; /* White bg ensures transparent PNGs are visible */
+    padding: 4px; /* Frame effect */
 }
 .full-width { width: 100%; }
 .half-width { max-width: 600px; }
-.caption-below {
-    text-align: center; font-size: 0.95rem; color: var(--text-muted);
-    margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;
-}
-.vis-comparison-container { overflow-x: auto; margin-bottom: 1rem; }
-.vis-comparison-container img { min-width: 800px; } /* Ensure large vis figure is readable on mobile */
 
-/* TEASER SLIDER */
-.teaser-container { width: 100%; max-width: 800px; margin: 0 auto; }
-.video-compare-container { position: relative; width: 100%; padding-bottom: 56.25%; overflow: hidden; border-radius: 12px; cursor: col-resize; box-shadow: 0 0 20px rgba(0, 204, 102, 0.1); border: 1px solid #333; background: #000;}
-.video-compare-container video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+.caption-below {
+    text-align: center; 
+    font-size: 0.95rem; 
+    color: var(--text-muted);
+    margin-bottom: 2rem; 
+    max-width: 800px; 
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+/* Container for very wide images (like vis.pdf) to allow scrolling on small screens */
+.vis-comparison-container { 
+    overflow-x: auto; 
+    margin-bottom: 1rem;
+    text-align: center; 
+}
+.vis-comparison-container img { min-width: 800px; } 
+
+/* =========================================
+   TEASER SLIDERS (Dual Grid Layout)
+   ========================================= */
+.teaser-container { 
+    width: 100%; 
+    /* Increased width to accommodate side-by-side sliders */
+    max-width: 960px; 
+    margin: 0 auto; 
+}
+
+.teaser-grid {
+    display: grid;
+    /* Two columns side-by-side on desktop */
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 1rem;
+}
+
+.video-compare-wrapper h3 {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    color: var(--text-color);
+}
+
+.video-compare-container { position: relative; width: 100%; padding-bottom: 75%; /* 4:3 Aspect Ratio for cleaner side-by-side view */ overflow: hidden; border-radius: 12px; cursor: col-resize; box-shadow: 0 0 20px rgba(0, 204, 102, 0.1); border: 1px solid #333; background: #000;}
+/* Supports img tags inside the slider */
+.video-compare-container img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+
 .video-clipper { position: absolute; top: 0; left: 0; bottom: 0; width: 50%; overflow: hidden; z-index: 2; border-right: 2px solid var(--signal-green); }
-.video-clipper video { width: 200%; height: 100%; }
+.video-clipper img { width: 200%; height: 100%; max-width: none; }
+
 .slider-handle { position: absolute; left: 50%; top: 0; bottom: 0; width: 40px; transform: translateX(-50%); z-index: 3; display: flex; justify-content: center; align-items: center; pointer-events: none; }
 .handle-circle { width: 40px; height: 40px; background-color: var(--signal-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
 .label { position: absolute; bottom: 10px; background: rgba(0, 0, 0, 0.7); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; z-index: 4; pointer-events: none; }
 .label-before { left: 10px; } .label-after { right: 10px; }
 
-/* GRID & OTHER COMPONENTS */
+/* =========================================
+   GRID & OTHER COMPONENTS
+   ========================================= */
 .method-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
 .method-item h3 { color: var(--signal-green); margin-top: 0; font-size: 1.2rem; }
 .highlight-box { background: rgba(120, 67, 230, 0.1); border: 1px solid var(--neurips-purple); color: #fff; padding: 1rem; border-radius: 8px; text-align: center; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
 pre { background-color: #000; padding: 1.5rem; border-radius: 8px; overflow-x: auto; font-size: 0.9rem; border: 1px solid #333; color: #dcdcdc; }
 .footer { text-align: center; padding: 2rem 0; font-size: 0.9rem; color: var(--text-muted); }
-@media (max-width: 768px) { .title { font-size: 1.8rem; } .method-grid { grid-template-columns: 1fr; } }
+
+/* Responsive adjustments */
+@media (max-width: 768px) { 
+    .title { font-size: 1.8rem; } 
+    .method-grid { grid-template-columns: 1fr; } 
+    /* Stack sliders vertically on mobile */
+    .teaser-grid { grid-template-columns: 1fr; gap: 2rem; }
+}
