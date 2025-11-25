@@ -93,7 +93,7 @@ a:hover { color: var(--signal-green); }
 
 /* =========================================
    TEASER SLIDERS (Dual Grid Layout)
-   === 重大修改区域：解决黑边和并排问题 ===
+   === 核心修复区域：彻底解决黑边 ===
    ========================================= */
 .teaser-container { 
     width: 100%; 
@@ -103,11 +103,10 @@ a:hover { color: var(--signal-green); }
 
 .teaser-grid {
     display: grid;
-    /* 电脑端强制双列并排 */
-    grid-template-columns: 1fr 1fr;
-    gap: 20px; /* 稍微减小间距以适应更多屏幕 */
+    grid-template-columns: 1fr 1fr; /* 电脑端强制双列并排 */
+    gap: 20px;
     margin-bottom: 1rem;
-    align-items: start; /* 顶部对齐 */
+    align-items: start;
 }
 
 .video-compare-wrapper h3 {
@@ -117,50 +116,53 @@ a:hover { color: var(--signal-green); }
     color: var(--text-color);
 }
 
-/* 滑块容器：取消固定比例，让内容决定高度 */
+/* 滑块容器：关键修复 */
 .video-compare-container { 
     position: relative; 
     width: 100%; 
-    /* padding-bottom: 75%;  <-- 已删除此强制比例 */
-    height: auto; /* 让高度自适应 */
+    height: auto !important; /* 强制高度自适应，不设固定值 */
+    padding-bottom: 0 !important; /* 强制清除任何比例占位 padding */
     overflow: hidden; 
     border-radius: 12px; 
     cursor: col-resize; 
     box-shadow: 0 0 20px rgba(0, 204, 102, 0.1); 
     border: 1px solid #333; 
-    background: #000; /* 保底背景色 */
+    background: #000;
+    line-height: 0; /* 消除图片底部的微小空隙 */
 }
 
-/* 背景图（右图）：作为基准，撑开容器高度 */
+/* 背景图（右图）：作为唯一的基准，撑开容器高度 */
 img.video-after {
-    position: relative; /* 不再是绝对定位 */
-    display: block; /* 消除底部空隙 */
+    position: relative !important; /* 改为相对定位 */
+    display: block;
     width: 100%;
-    height: auto; /* 高度自适应 */
-    object-fit: contain; /* 确保完整显示 */
+    height: auto !important; /* 高度由图片自身决定 */
+    margin: 0;
+    padding: 0;
+    /* 移除 object-fit，因为 width:100% height:auto 已经足够 */
 }
 
-/* 裁切区域（左图容器）：覆盖在背景图之上 */
+/* 裁切区域：绝对定位，覆盖在背景图上 */
 .video-clipper { 
     position: absolute; 
     top: 0; 
     left: 0; 
-    height: 100%; /* 高度跟随容器 */
+    height: 100%; /* 高度跟随容器（也就是背景图的高度） */
     width: 50%; 
     overflow: hidden; 
     z-index: 2; 
     border-right: 2px solid var(--signal-green); 
 }
 
-/* 前景图（左图）：在裁切区域内显示 */
+/* 前景图（左图）：在裁切区域内显示，必须与背景图完美重合 */
 .video-clipper img.video-before { 
     position: absolute;
     top: 0;
     left: 0;
-    height: 100%; /* 高度填满裁切区 */
-    width: auto; /* 宽度自动，保持比例 */
+    height: 100%; /* 高度匹配 */
+    width: auto;  /* 宽度自动，保持比例 */
     max-width: none; /* 允许超出裁切区边界 */
-    object-fit: contain;
+    /* 关键：确保这一张图的渲染尺寸与背景图完全一致 */
 }
 
 .slider-handle { position: absolute; left: 50%; top: 0; bottom: 0; width: 40px; transform: translateX(-50%); z-index: 3; display: flex; justify-content: center; align-items: center; pointer-events: none; }
@@ -183,7 +185,7 @@ pre { background-color: #000; padding: 1.5rem; border-radius: 8px; overflow-x: a
     .method-grid { grid-template-columns: 1fr; } 
 }
 
-/* 仅在非常窄的屏幕（小于650px，如手机竖屏）下才堆叠滑块 */
+/* 仅在非常窄的屏幕下堆叠滑块 */
 @media (max-width: 650px) {
     .teaser-grid { grid-template-columns: 1fr; gap: 2rem; }
 }
